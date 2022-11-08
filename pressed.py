@@ -32,9 +32,12 @@ def botao():
 tecla_1,tecla_2, tecla_3, tecla_4, tecla_5, tecla_6, tecla_7, tecla_8, tecla_9, tecla_0, tecla_Branco, tecla_Corrige, tecla_Confirma = botao()
 
 def area(click, tecla):
-        ll = tecla.getP1()
-        ur = tecla.getP2()
-        return ll.getX() < click.getX() < ur.getX() and ll.getY() < click.getY() < ur.getY()
+        if click is None:
+            return 0
+        else:
+            ll = tecla.getP1()
+            ur = tecla.getP2()
+            return ll.getX() < click.getX() < ur.getX() and ll.getY() < click.getY() < ur.getY()
 
 def tecla(click):
     if click is None:
