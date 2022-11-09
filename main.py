@@ -110,6 +110,7 @@ def main():
         fimTxt.draw(win)
         votouTxt.draw(win)
         objetos.na_tela(objetosNaTela,fim_objts)
+        
         return 4
         
         
@@ -254,6 +255,10 @@ def main():
     in_tela = False
     ligado = False
     box = None
+    r = 255
+    g = 255
+    b = 255
+    tempo = 0
     while True:
         click = win.checkMouse()
         cargo = telas[telaAtual[0]]
@@ -281,17 +286,25 @@ def main():
             statusVoto[0] = "Não Recebido"
             telaAtual[0] == fim()
             telaAtual[0] = 4
+            
 
-        elif ligado == True and confirma(click) != None and telaAtual[0] == 4:
+        elif ligado == True != None and telaAtual[0] == 4:
+            playsound('Fim.mp3')
+            time.sleep(5)
             reset_tela()
-            tela.setFill(color_rgb(50,50,50))
+            for i in range(42): #Animação de ligar tela
+                r = r - 5
+                g = g - 5
+                b = b - 5
+                tela.setFill(color_rgb(r,g,b))
             ligado = False
+            in_tela = False
             telaAtual[0] = -1
     
         if click != None and ligado == True and telaAtual[0] != 3:
             teclas()
             testar_voto()
-        print('esta na tela',telas[telaAtual[0]],telaAtual[0],"\n voto",statusVoto[0])
+
         if area(click,encerrar):
             break
         update(30) 
