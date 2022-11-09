@@ -82,8 +82,40 @@ def main():
         objetos.na_tela(objetosNaTela,iniciando_objts)
         return True
 
+    def fim():
+        votouTxt = Text(Point(555-45,213+290),"VOTOU")
+        votouTxt.setSize(20)
+        votouTxt.setTextColor('grey')
+        fimTxt = Text(Point(337.5,376.5),"FIM")
+        fimTxt.setSize(36)
+        
+        txt = Text(Point(335,450),"Gravando...")
+        bar = Rectangle(Point(170,470),Point(505,490))
+        loading = Rectangle(Point(170,470),Point(170,490))
+        fim_objts = [fimTxt,votouTxt,txt,bar,loading]
+
+        txt.draw(win)
+        bar.draw(win)
+        for i in range(1,106,5): # Animação "iniciando..."
+            loading.undraw()
+            loading = Rectangle(Point(170,470),Point(170+(3.35*i),490))
+            loading.setFill('green')
+            time.sleep(0.1)
+            loading.draw(win)
+            fim_objts.append(loading)
+            update(60)
+        time.sleep(0.5)
+        objetos.na_tela(objetosNaTela,fim_objts)
+        reset_tela()
+        fimTxt.draw(win)
+        votouTxt.draw(win)
+        objetos.na_tela(objetosNaTela,fim_objts)
+        return 4
+        
+        
+
     #------------------ Tela Receber Voto ------------------
-    def tela_cargo(cargo,box):
+    def tela_cargo(cargo,box): #Mostra o CARGO e a quantidade correspondendende retangulos 
         cargo_display = Text(Point(290,273),cargo)
         cargo_display.setSize(18)
         cargo_display.setFace("arial")
@@ -96,7 +128,7 @@ def main():
         objetos.na_tela(objetosNaTela,recebe_objts)
         print('entrou no indice',len(objetosNaTela)-1)
 
-    def num_tela(tecla,centerPoint,digito):
+    def num_tela(tecla,centerPoint,digito): #Desenha o número digitado na tela
         if tecla != None:
             numero = Text(centerPoint[digito[0]],tecla)
             digito[0] += 1
@@ -106,7 +138,7 @@ def main():
             objetosNaTela.append(numero)
         else:
             return 0
-    def reset_digtos():
+    def reset_digtos(): # Apaga os números na tela
         objetos.apagar(digitoInTela,win)
         objetos.del_lista(voto_digitos)
         objetos.del_lista(digitoInTela)
@@ -114,35 +146,34 @@ def main():
         preenchido[0] = False
 
 
-    def reset_tela():
+    def reset_tela(): # Apaga todos os objetos na tela, usado pra troca de tela
         objetos.apagar(objetosNaTela,win)
         reset_digtos()
         objetos.del_lista(objetosNaTela)
 
-    def teclas():
-            if telaAtual[0] == 0:
+    def teclas(): # Verifica quais teclas foram pressionadas
+            if telaAtual[0] == 0: # Verificando se está em uma tela que use as teclas
                 return 0
             else:
-                if tecla(click) != None and digito[0] < len(txtCenter):
+                if tecla(click) != None and digito[0] < len(txtCenter): # Tecla para os números, coloca eles na tela
                     num_tela(tecla(click),txtCenter,digito)
                 
-                elif branco(click) != None and len(digitoInTela) == 0:
+                elif branco(click) != None and len(digitoInTela) == 0: # Tecla voto branco
                     reset_tela()
                     objetos.redraw_list(branco_objts,win)
                     objetos.na_tela(objetosNaTela,branco_objts)
                     for i in range((len(box))):
                         voto_digitos.append("Nda")
                     
-                    
-                elif corrige(click) != None and digitoInTela != 0:
+                elif corrige(click) != None and digitoInTela != 0: # Tecla de Corrigir, apaga tudo e volta pra tela de receber voto do cargo atual
                     reset_tela()
                     tela_cargo(cargo,box)
-                elif confirma(click) != None and len(voto_digitos) == len(box):
+                elif confirma(click) != None and len(voto_digitos) == len(box): # Tecla Confirmar, encerra a tela de voto atual e vai pra próxima
                     reset_tela()
                     statusVoto[0] = "Recebido"
                     telaAtual[0] += 1 
 
-    def testar_voto():
+    def testar_voto(): #Testa se os números inseridos são de um candidato
         if telaAtual[0] == 0 or len(digitoInTela) == 0 or digitoInTela[0] == "Nda":
             return 0
         else:
@@ -169,12 +200,9 @@ def main():
                     objetos.redraw_list(rodape_objts,win)
                     objetos.redraw_list(nulo_objts,win)
                     objetos.na_tela(objetosNaTela,nulo_objts)
-                    objetos.na_tela(objetosNaTela,rodape_objts)
-
-                
+                    objetos.na_tela(objetosNaTela,rodape_objts)            
     # -----------------------
-
-    # Objetos da Tela
+    # Listas de Objetos da Tela
     objetosNaTela = []
     digitoInTela = []
     #Informações do Rodape
@@ -189,7 +217,6 @@ def main():
     line_rodape.setFill('black')
     rodape_objts = [line_rodape,corrige_rodape,confirmar_rodape,aperte_rodape]
     # Tela de Voto
-    
     numeroTxt = Text(Point(135,213+105),"Número:")
     nomeTxt = Text(Point(135,213+135),"Nome:")
     partidoTxt = Text(Point(135,213+165),"Partido:")
@@ -215,20 +242,15 @@ def main():
     encerrarImg.draw(win)
     iniciar = Rectangle(Point(60,600),Point(140,640))
     encerrar = Rectangle(Point(160,600),Point(240,640))
-    
-        
-    
-
-
-
-    telaAtual = [-1]
-    digito = [0]
-    preenchido = [False]
-    voto_digitos = []
-    statusVoto = ["Não Recebido"]
-    telas = ['Iniciar','Senador','Presidente','Chave Para Encerrar','Voto Nulo','Tela Desligada']
-    n_cargo = {"Senador":2,"Presidente":1,"Deputado Federal":4,"Chave Para Encerrar":4}
-    txtCenter = []
+    # Listas 
+    telaAtual = [-1] # Contador para saber qual tela mostrar
+    digito = [0] # Contador de digitos
+    preenchido = [False] #Contador para saber se já foi preenchidos todos os digitos na tela e evitar loop de verificar voto
+    voto_digitos = [] # Lista o para armazenar o voto
+    statusVoto = ["Não Recebido"] # Saber se o voto foi armazenado
+    telas = ['Iniciar','Senador','Presidente','Fim','Chave Para Encerrar','Tela Desligada'] #Lista de telas
+    n_cargo = {"Senador":2,"Presidente":1,"Deputado Federal":4,"Chave Para Encerrar":4} #Dicionario que indica a quantidade de retangulos na tela
+    txtCenter = [] # Lista que armazena as coordenadas xy do centro de cada retangulo para colocar os números
     in_tela = False
     ligado = False
     box = None
@@ -236,7 +258,7 @@ def main():
         click = win.checkMouse()
         cargo = telas[telaAtual[0]]
 
-        if area(click,iniciar) == True and telaAtual[0] == -1:
+        if area(click,iniciar) == True and ligado == False:
             objetos.apagar(objetosNaTela,win)
             ligado = iniciando(50,50,50)
             telaAtual[0] = 1
@@ -257,28 +279,23 @@ def main():
         elif ligado == True and statusVoto[0] == "Recebido" and telaAtual[0] == 3:
             reset_tela()
             statusVoto[0] = "Não Recebido"
-            box = qtd_box(n_cargo[cargo])
-            tela_cargo(cargo,box)
-            txtCenter = boxCenter(box)
+            telaAtual[0] == fim()
+            telaAtual[0] = 4
 
-        elif ligado == True and statusVoto[0] == "Recebido" and telaAtual[0] == 4:
+        elif ligado == True and confirma(click) != None and telaAtual[0] == 4:
             reset_tela()
             tela.setFill(color_rgb(50,50,50))
-            statusVoto[0] = "Não Recebido"
+            ligado = False
             telaAtual[0] = -1
     
-        if click != None and ligado == True:
+        if click != None and ligado == True and telaAtual[0] != 3:
             teclas()
             testar_voto()
         print('esta na tela',telas[telaAtual[0]],telaAtual[0],"\n voto",statusVoto[0])
         if area(click,encerrar):
             break
-        
-        update(30)
+        update(30) 
 
-
-
-            
     win.close()
 
 main()
