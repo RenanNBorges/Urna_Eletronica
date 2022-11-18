@@ -33,6 +33,3 @@ def alinhamento(obj,x_align):
         l_align = abs(l_point - x_align)
         objtexto.move(l_align,0)
     
-def del_lista(lista):
-    for i in range(len(lista)):
-            del(lista[0])

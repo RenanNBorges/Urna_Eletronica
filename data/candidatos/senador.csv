@@ -1,9 +1,11 @@
 ﻿Número;Nome;Partido;Nome Suplente;img;img2;
-555;ANA AMÉLIA LEMOS;PSD;PAULO TELLES;.\data\img\candidatos\senador\555.gif;
-160;FABIANA SANGUINÉ;PSTU;JOÃO AUGUSTO;.\data\img\candidatos\senador\160.gif;
-100;HAMILTON MOURÃO;REPUBLICANOS;LIZIANE BAYER;.\data\img\candidatos\senador\100.gif;
-200;MARISTELA ZANOTTO;PSC;ELIANE DALACOSTA;.\data\img\candidatos\senador\200.gif;
-131;OLÍVIO DUTRA;PT;ROBERTO ROBAINA;.\data\img\candidatos\senador\131.gif;
-270;PAULO ROSA;DC;CARLOS CARDOSO;.\data\img\candidatos\senador\270.gif;
-700;PROFESSOR NADO;PDT;VELLINHO PINTO;.\data\img\candidatos\senador\700.gif;
-400;SANNY FIGUEIREDO;PSB;RENATO DE OLIVEIRA;.\data\img\candidatos\senador\400.gif;
+555;ANA AMÉLIA LEMOS;PSD;PAULO TELLES;/data/img/candidatos/senador/555.gif;/data/img/candidatos/suplente/555.gif;
+160;FABIANA SANGUINÉ;PSTU;JOÃO AUGUSTO;/data/img/candidatos/senador/160.gif;/data/img/candidatos/suplente/160.gif;
+100;HAMILTON MOURÃO;REPUBLICANOS;LIZIANE BAYER;/data/img/candidatos/senador/100.gif;/data/img/candidatos/suplente/100.gif;
+200;MARISTELA ZANOTTO;PSC;ELIANE DALACOSTA;/data/img/candidatos/senador/200.gif;/data/img/candidatos/suplente/200.gif;
+131;OLÍVIO DUTRA;PT;ROBERTO ROBAINA;/data/img/candidatos/senador/131.gif;/data/img/candidatos/suplente/131.gif;
+270;PAULO ROSA;DC;CARLOS CARDOSO;/data/img/candidatos/senador/270.gif;/data/img/candidatos/suplente/290.gif;
+700;PROFESSOR NADO;PDT;VELLINHO PINTO;/data/img/candidatos/senador/700.gif;/data/img/candidatos/suplente/700.gif;*
+400;SANNY FIGUEIREDO;PSB;RENATO DE OLIVEIRA;/data/img/candidatos/senador/400.gif;/data/img/candidatos/suplente/400.gif;
+Branco;Branco;Branco;Branco;Branco;Branco;
+Nulo;Nulo;Nulo;Nulo;Nulo;Nulo;

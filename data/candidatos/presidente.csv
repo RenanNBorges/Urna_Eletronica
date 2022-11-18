@@ -1,12 +1,14 @@
 Número;Nome;Partido;Nome Vice;img;img2
-12;CIRO GOMES;PDT;ANA PAULA MATOS;.\data\img\candidatos\presidente\12.png;.\data\img\candidatos\vice-presidente\12.png
-13;LULA;PT;GERALDO ALCKMIN;.\data\img\candidatos\presidente\13.png;.\data\img\candidatos\vice-presidente\13.png;0
-14;PADRE KELMON;PTB;PASTOR GAMONAL;.\data\img\candidatos\presidente\14.png;.\data\img\candidatos\vice-presidente\14.png
-15;SIMONE TEBET;MDB;PROFESSOR BRAVO;.\data\img\candidatos\presidente\15.png;.\data\img\candidatos\vice-presidente\15.png
-16;VERA;PSTU;TIAGO MITRAUD;.\data\img\candidatos\presidente\16.png;.\data\img\candidatos\vice-presidente\16.png;0
-21;SOFIA MANZANO;PCB;RAQUEL TREMEMBÉ;.\data\img\candidatos\presidente\21.png;.\data\img\candidatos\vice-presidente\21.png
-22;JAIR BOLSONARO;PL;MARCOS CINTRA;.\data\img\candidatos\presidente\22.png;.\data\img\candidatos\vice-presidente\22.png
-27;CONSTITUINTE EYMAEL;DC;ANTONIO ALVES;.\data\img\candidatos\presidente\27.png;.\data\img\candidatos\vice-presidente\27.png
-30;FELIPE D'AVILA;NOVO;BRAGA NETTO;.\data\img\candidatos\presidente\30.png;.\data\img\candidatos\vice-presidente\30.png
-44;SORAYA THRONICKE;UNIÃO;SAMARA MARTINS;.\data\img\candidatos\presidente\44.png;.\data\img\candidatos\vice-presidente\44.png
-80;LÉO PÉRICLES;UP;MARA GABRILLI;.\data\img\candidatos\presidente\80.png;.\data\img\candidatos\vice-presidente\80.png
+12;CIRO GOMES;PDT;ANA PAULA MATOS;/data/img/candidatos/presidente/12.gif;/data/img/candidatos/vice-presidente/12.gif
+13;LULA;PT;GERALDO ALCKMIN;/data/img/candidatos/presidente/13.gif;/data/img/candidatos/vice-presidente/13.gif;0
+14;PADRE KELMON;PTB;PASTOR GAMONAL;/data/img/candidatos/presidente/14.gif;/data/img/candidatos/vice-presidente/14.gif
+15;SIMONE TEBET;MDB;PROFESSOR BRAVO;/data/img/candidatos/presidente/15.gif;/data/img/candidatos/vice-presidente/15.gif
+16;VERA;PSTU;TIAGO MITRAUD;/data/img/candidatos/presidente/16.gif;/data/img/candidatos/vice-presidente/16.gif;0
+21;SOFIA MANZANO;PCB;RAQUEL TREMEMBÉ;/data/img/candidatos/presidente/21.gif;/data/img/candidatos/vice-presidente/21.gif
+22;JAIR BOLSONARO;PL;MARCOS CINTRA;/data/img/candidatos/presidente/22.gif;/data/img/candidatos/vice-presidente/22.gif
+27;CONSTITUINTE EYMAEL;DC;ANTONIO ALVES;/data/img/candidatos/presidente/27.gif;/data/img/candidatos/vice-presidente/27.gif
+30;FELIPE D'AVILA;NOVO;BRAGA NETTO;/data/img/candidatos/presidente/30.gif;/data/img/candidatos/vice-presidente/30.gif
+44;SORAYA THRONICKE;UNIÃO;SAMARA MARTINS;/data/img/candidatos/presidente/44.gif;/data/img/candidatos/vice-presidente/44.gif
+80;LÉO PÉRICLES;UP;MARA GABRILLI;/data/img/candidatos/presidente/80.gif;/data/img/candidatos/vice-presidente/80.gif
+Branco;Branco;Branco;Branco;Branco;Branco
+Nulo;Nulo;Nulo;Nulo;Nulo;Nulo

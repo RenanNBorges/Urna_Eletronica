@@ -1,10 +1,12 @@
-import time
 import objetos
+import time
 import candidato
 from pressed import *
 from graphics import *
 from playsound import playsound
+import os
 
+caminho = os.getcwd()
 #Criando a Janela Principal
 largura = 1000
 altura = 700
@@ -13,7 +15,7 @@ def main():
     win = GraphWin("Urna Eletrônica por Renan Borges",largura,altura, autoflush=False)
     win.setBackground('white')
     # ------------------ Imagem da Urna ------------------
-    urna_img = Image(Point(500,350),'.\\data\\img\\urna.gif')
+    urna_img = Image(Point(500,350),caminho + '/data/img/urna.gif')
     urna_img.draw(win)
 
     # ------------------ Funções para Objetos Dinâmicos ------------------
@@ -48,7 +50,7 @@ def main():
     # ------------------ Tela de Iniciação ------------------
     def iniciando(r,g,b):
         # Objetos da Função
-        ini_logo = Image(Point(337.5,340),'.\data\img\JE_logo.png')
+        ini_logo = Image(Point(337.5,340),caminho + '/data/img/JE_logo.png')
         txt = Text(Point(335,450),"Iniciando...")
         bar = Rectangle(Point(170,470),Point(505,490))
         loading = Rectangle(Point(170,470),Point(170,490))
@@ -83,11 +85,12 @@ def main():
         return True
 
     def fim():
-        votouTxt = Text(Point(555-45,213+290),"VOTOU")
+        votouTxt = Text(Point(480,213+280),"VOTOU")
         votouTxt.setSize(20)
         votouTxt.setTextColor('grey')
         fimTxt = Text(Point(337.5,376.5),"FIM")
         fimTxt.setSize(36)
+        fimTxt.setStyle('bold')
         
         txt = Text(Point(335,450),"Gravando...")
         bar = Rectangle(Point(170,470),Point(505,490))
@@ -110,11 +113,8 @@ def main():
         fimTxt.draw(win)
         votouTxt.draw(win)
         objetos.na_tela(objetosNaTela,fim_objts)
-        
         return 4
         
-        
-
     #------------------ Tela Receber Voto ------------------
     def tela_cargo(cargo,box): #Mostra o CARGO e a quantidade correspondendende retangulos 
         cargo_display = Text(Point(290,273),cargo)
@@ -127,7 +127,6 @@ def main():
         objetos.na_tela(recebe_objts,box)
         objetos.redraw_list(box,win)
         objetos.na_tela(objetosNaTela,recebe_objts)
-        print('entrou no indice',len(objetosNaTela)-1)
 
     def num_tela(tecla,centerPoint,digito): #Desenha o número digitado na tela
         if tecla != None:
@@ -137,12 +136,16 @@ def main():
             voto_digitos.append(tecla)
             digitoInTela.append(numero)
             objetosNaTela.append(numero)
+            if None in voto_digitos:
+                del voto_digitos [:]
+                voto_digitos.append(tecla)
+       
         else:
             return 0
     def reset_digtos(): # Apaga os números na tela
         objetos.apagar(digitoInTela,win)
-        objetos.del_lista(voto_digitos)
-        objetos.del_lista(digitoInTela)
+        del voto_digitos[:]
+        del digitoInTela[:]
         digito[0] = 0
         preenchido[0] = False
 
@@ -150,7 +153,7 @@ def main():
     def reset_tela(): # Apaga todos os objetos na tela, usado pra troca de tela
         objetos.apagar(objetosNaTela,win)
         reset_digtos()
-        objetos.del_lista(objetosNaTela)
+        del objetosNaTela[:]
 
     def teclas(): # Verifica quais teclas foram pressionadas
             if telaAtual[0] == 0: # Verificando se está em uma tela que use as teclas
@@ -159,40 +162,46 @@ def main():
                 if tecla(click) != None and digito[0] < len(txtCenter): # Tecla para os números, coloca eles na tela
                     num_tela(tecla(click),txtCenter,digito)
                 
-                elif branco(click) != None and len(digitoInTela) == 0: # Tecla voto branco
+                elif branco(click) != None and len(digitoInTela) == 0 and telaAtual[0] != 5: # Tecla voto branco
                     reset_tela()
                     objetos.redraw_list(branco_objts,win)
                     objetos.na_tela(objetosNaTela,branco_objts)
-                    for i in range((len(box))):
-                        voto_digitos.append("Nda")
+                    voto_digitos.append('Branco')
+                    preenchido[0] = True
                     
                 elif corrige(click) != None and digitoInTela != 0: # Tecla de Corrigir, apaga tudo e volta pra tela de receber voto do cargo atual
                     reset_tela()
                     tela_cargo(cargo,box)
-                elif confirma(click) != None and len(voto_digitos) == len(box): # Tecla Confirmar, encerra a tela de voto atual e vai pra próxima
+                elif confirma(click) != None and preenchido[0] == True  and telaAtual[0] != 5: # Tecla Confirmar, encerra a tela de voto atual e vai pra próxima
+
+                    candidato.votos(voto_digitos[0],telaAtual[0])
                     reset_tela()
                     statusVoto[0] = "Recebido"
-                    telaAtual[0] += 1 
+                    telaAtual[0] += 1
 
     def testar_voto(): #Testa se os números inseridos são de um candidato
         if telaAtual[0] == 0 or len(digitoInTela) == 0 or digitoInTela[0] == "Nda":
             return 0
         else:
-            if len(digitoInTela) == len(box) and preenchido[0] == False:
-                votoRecebido_objts = [votoPara,numeroTxt,partidoTxt,nomeTxt,viceTxt]
+            if len(digitoInTela) == len(box) and preenchido[0] == False  and telaAtual[0] != 5:
+                votoRecebido_objts = [votoPara,numeroTxt,partidoTxt,nomeTxt]
+                if telaAtual[0] == 1:
+                    votoRecebido_objts.append(suplenteTxt)
+                elif telaAtual[0] == 2:
+                    votoRecebido_objts.append(viceTxt)
                 preenchido[0] = True
                 voto =  voto_digitos[0]
                 for i in voto_digitos[1:]:
                     voto += i
-
-                print('voto=',voto)
-                if candidato.valido(voto,telaAtual[0]) == "valido":
+                voto_digitos[0] = voto
+                
+                if candidato.valido(voto_digitos[0],telaAtual[0]) == "valido":
                     info_eleitoral = []
                     info_eleitoral = candidato.display(voto,telaAtual[0])
-                    objetos.alinhamento(info_eleitoral[3:],240)
-                    objetos.redraw_list(info_eleitoral,win)
+                    objetos.alinhamento(info_eleitoral[4:],240)
                     objetos.redraw_list(votoRecebido_objts,win)
                     objetos.redraw_list(rodape_objts,win)
+                    objetos.redraw_list(info_eleitoral,win)
                     objetos.na_tela(votoRecebido_objts,info_eleitoral)
                     objetos.na_tela(objetosNaTela,rodape_objts)
                     objetos.na_tela(objetosNaTela,votoRecebido_objts)
@@ -201,7 +210,11 @@ def main():
                     objetos.redraw_list(rodape_objts,win)
                     objetos.redraw_list(nulo_objts,win)
                     objetos.na_tela(objetosNaTela,nulo_objts)
-                    objetos.na_tela(objetosNaTela,rodape_objts)            
+                    objetos.na_tela(objetosNaTela,rodape_objts)
+                    voto_digitos[0] = "Nulo"   
+            else:
+                return 0
+      
     # -----------------------
     # Listas de Objetos da Tela
     objetosNaTela = []
@@ -222,7 +235,7 @@ def main():
     nomeTxt = Text(Point(135,213+135),"Nome:")
     partidoTxt = Text(Point(135,213+165),"Partido:")
     viceTxt = Text(Point(135,213+205),"Vice:")
-    suplenteTxt = Text(Point(135,213+205),"1º Suplente:")
+    suplenteTxt = Text(Point(135,213+205),"Suplente:")
     tela_voto_txt = [numeroTxt,nomeTxt,partidoTxt,viceTxt,suplenteTxt]
     objetos.alinhamento(tela_voto_txt,126)
     # Tela Voto Branco
@@ -237,29 +250,35 @@ def main():
     voto_nulo.setSize(30)
     nulo_objts = [numeroTxt,votoPara,numero_errado,voto_nulo]
     # Botões
-    iniciarImg = Image(Point(100,640),".\\data\\img\\buttons\\start.gif")
-    encerrarImg = Image(Point(200,640),".\\data\\img\\buttons\\stop.gif")
+    iniciarImg = Image(Point(100,640),"./data/img/buttons/start.gif")
+    encerrarImg = Image(Point(200,640),"./data/img/buttons/stop.gif")
     iniciarImg.draw(win)
     encerrarImg.draw(win)
     iniciar = Rectangle(Point(60,600),Point(140,640))
     encerrar = Rectangle(Point(160,600),Point(240,640))
+    #Avisos
+    box_aviso = Rectangle(Point(350,120),Point(650,180))
+    box_aviso.setFill(color_rgb(239,235,108))
+    reinicioTxt = Text(Point(500,150),"Aguarde alguns segundos...")
+    aviso_reinicio =  [box_aviso,reinicioTxt]
+    avisocorrigirTxt = Text(Point(500,150),"Preencha todos os números\npara confirmar")
+    aviso_confirmar =  [box_aviso,avisocorrigirTxt]
     # Listas 
     telaAtual = [-1] # Contador para saber qual tela mostrar
     digito = [0] # Contador de digitos
     preenchido = [False] #Contador para saber se já foi preenchidos todos os digitos na tela e evitar loop de verificar voto
-    voto_digitos = [] # Lista o para armazenar o voto
+    voto_digitos = [None] # Lista o para armazenar o voto
     statusVoto = ["Não Recebido"] # Saber se o voto foi armazenado
-    telas = ['Iniciar','Senador','Presidente','Fim','Chave Para Encerrar','Tela Desligada'] #Lista de telas
+    telas = ['Iniciar','Senador','Presidente','Fim','0','Chave Para Encerrar','Tela Desligada'] #Lista de telas
     n_cargo = {"Senador":2,"Presidente":1,"Deputado Federal":4,"Chave Para Encerrar":4} #Dicionario que indica a quantidade de retangulos na tela
     txtCenter = [] # Lista que armazena as coordenadas xy do centro de cada retangulo para colocar os números
     in_tela = False
     ligado = False
     box = None
-    r = 255
-    g = 255
-    b = 255
-    tempo = 0
     while True:
+        r = 255
+        g = 255
+        b = 255
         click = win.checkMouse()
         cargo = telas[telaAtual[0]]
 
@@ -267,6 +286,7 @@ def main():
             objetos.apagar(objetosNaTela,win)
             ligado = iniciando(50,50,50)
             telaAtual[0] = 1
+            candidato.initVotos()
 
         elif ligado == True and in_tela == False and telaAtual[0] == 1: #Tela Senador
             objetos.apagar(objetosNaTela,win)
@@ -281,32 +301,52 @@ def main():
             tela_cargo(cargo,box)
             txtCenter = boxCenter(box)
 
-        elif ligado == True and statusVoto[0] == "Recebido" and telaAtual[0] == 3:
+        elif ligado == True and statusVoto[0] == "Recebido" and telaAtual[0] == 3: #Tela FIM
             reset_tela()
             statusVoto[0] = "Não Recebido"
-            telaAtual[0] == fim()
+            fim()
             telaAtual[0] = 4
+            objetos.redraw_list(aviso_reinicio,win)
+            objetos.na_tela(objetosNaTela,aviso_reinicio)
             
 
         elif ligado == True != None and telaAtual[0] == 4:
-            playsound('Fim.mp3')
-            time.sleep(5)
+            
+            playsound('fim.mp3')
+            time.sleep(3)
             reset_tela()
-            for i in range(42): #Animação de ligar tela
-                r = r - 5
-                g = g - 5
-                b = b - 5
-                tela.setFill(color_rgb(r,g,b))
-            ligado = False
             in_tela = False
-            telaAtual[0] = -1
-    
+            telaAtual[0] = 1
+
+        elif ligado == True and telaAtual[0] == 5: #Tela Presidente
+            if len(digitoInTela) == len(box):
+                voto =  voto_digitos[0]
+                for i in voto_digitos[1:]:
+                    voto = str(voto) + str(i)
+                    voto_digitos[0] = voto
+                if voto_digitos[0] == "00000":
+                    tela.setFill(color_rgb(50,50,50))
+                    reset_tela()
+                    ligado = False
+                    telaAtual[0] = -1
+                    statusVoto[0] = "Não Recebido"
+                    in_tela = False
+                    candidato.resultado_votacao()
+                else:
+                    reset_digtos()
+                
         if click != None and ligado == True and telaAtual[0] != 3:
             teclas()
             testar_voto()
 
-        if area(click,encerrar):
-            break
+        if area(click,encerrar) and ligado == True:
+            reset_tela()
+            telaAtual[0] = 5
+            box = qtd_box(4)
+            tela_cargo("Chave de Encerramento",box)
+            txtCenter = boxCenter(box)
+            in_tela = True
+            
         update(30) 
 
     win.close()
